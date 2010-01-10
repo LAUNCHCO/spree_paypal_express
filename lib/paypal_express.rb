@@ -9,7 +9,8 @@ module PaypalExpress
     setup_response = express_gateway.setup_purchase(@order.total*100,
         :ip                => request.remote_ip,
         :return_url        => url_for(:action => 'confirm', :id => @order, :only_path => false),
-        :cancel_return_url => url_for(:action => 'edit', :id => @order, :only_path => false)
+        :cancel_return_url => url_for(:action => 'edit', :id => @order, :only_path => false),
+        :locale => (I18n.locale.to_s.split('-').last rescue 'US')
       )
       redirect_to express_gateway.redirect_url_for(setup_response.token)
   end
@@ -87,6 +88,7 @@ module PaypalExpress
       :payer_id => params[:payer_id],
       :token    => params[:token],
       :currency => Spree::Config[:paypal_express_currency] || 'USD'
+
     )
     
     if !purchase.success?
