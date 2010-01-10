@@ -1,8 +1,32 @@
 = Paypal Express
 
-An extension that allows Spree to accept paypal express as a second payment gateway.
-This works with Spree 0.9 and higher. It will not work without some modifications with earlier versions.
+An extension that allows Spree to accept paypal express as a payment gateway.
+This works with Spree 0.9.4 and higher. It will not work without some modifications with earlier versions.
 
-TODO
-# Process coupons
-# Add tests
+== Installation
+
+Just do a
+
+  ruby script/extension install git://github.com/rocket-rentals/spree_paypal_express.git
+
+and a
+
+   rake spree:extensions:paypal_express:update
+
+and you're done.
+
+== Configuration
+
+Head to your Spree Administation Panel and find PayPal Express Settings. Enter your PayPal API details and choose a default currency.
+
+== Credits & License
+
+This Plugin has been forked from @bryanmtl and has some modifications from @dagi3d pulled in. The rest is (c) 2010 ROCKET RENTALS GmbH, licensed under the MIT license.
+
+http://www.rocket-rentals.de
+
+== TODO
+
+Process coupons
+
+Add tests
