@@ -9,7 +9,7 @@
     <h3><%= "#{t("subtotal")}: #{order_price(@order)}" %></h3>
     <div class="links">
       <%= link_to image_tag('/images/update.png') + t("update"), '#', :class => 'button checkout primary', :onclick => "$('form#updatecart').submit(); return false;" %>
-      <%= link_to image_tag('/images/checkout.png') + t("checkout"), express_checkout_order_url(@order), :class => 'button checkout primary' %>
+      <%= link_to image_tag('/images/paypal_logo_80x35.gif', :height => 24) + t("checkout"), express_checkout_order_url(@order), :class => 'button checkout primary' %>
     </div>
   </div>
   <% end -%>
