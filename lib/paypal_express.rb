@@ -102,7 +102,8 @@ module PaypalExpress
     
     
     @order.checkout.completed_at = Time.now
-    
+    @order.shipments.build.build_address if @order.shipment.blank? or @order.shipment.address.blank?
+
     
 
     
