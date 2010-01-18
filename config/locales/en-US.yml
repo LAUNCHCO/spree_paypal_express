@@ -1,3 +1,4 @@
 en-US:
-  paypal_pay: Paypal Payment
-  Paypal Express Settings: Paypal Express Settings
+  paypal_pay: 'Paypal Payment'
+  'Paypal Express Settings': 'Paypal Express Settings'
+  your_paypal_account_has_been_charged: 'Your order has been completed and your PayPal account has been charged.'

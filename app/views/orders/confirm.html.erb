@@ -8,24 +8,30 @@
 	});
 </script>
 <div class="cart">
-<h1><%= t("shopping_cart")%></h1>
-<h2 class="paypal">Please Confirm Your Payment Details</h2>
+<h1><%= t(:final_confirmation)%></h1>
+<h2 class="paypal"><%= t :address %></h2>
 <table id="paypal">
 	<tr align="left">
 		<td align="left">
-   	  <p><span>Name:</span> <%= @address['name'] %></p>
-		  <p><span>Company:</span> <%= @address['company'] %></p>
-		  <p><span>Address 1:</span> <%= @address['address1'] %></p>
-		  <p><span>Address 2:</span> <%= @address['address2'] %></p>
-		  <p><span>City:</span> <%= @address['city'] %></p>
-		  <p><span>State:</span> <%= @address['state'] %> </p>
-		  <p><span>Country:</span> <%= @address['country'] %></p>
-		  <p><span>Zip:</span> <%= @address['zip'] %></p>
+   	  <p><span><%= t :name %>:</span> <%= [@address['name'],@address['company']].compact.reject(&:blank?).join(', ') %></p>
+		  <p><span><%= t :street_address %>:</span> <%= @address['address1'] %></p>
+		  <p><span><%= t :street_address_2 %>:</span> <%= @address['address2'] %></p>
+		  <p><span><%= t :zip %>, <%= t :city %>:</span><%= @address['zip'] %> <%= @address['city'] %></p>
+		  <p><span><%= t :state %>:</span> <%= @address['state'] %> </p>
+		  <p><span><%= t :country %>:</span> <%= @address['country'] %></p>
 	 </td>
   </tr>
+       <tr align="left">
+               <td align="left">
+                       <h2 class="paypal"><%= t :price %></h2>
+					   <p><span><%= t :item_total %>:</span> <%= number_to_currency @order.item_total %></p>
+					   <p><span><%= t :tax_total %>:</span> <%= number_to_currency @order.tax_total %></p>
+					   <p><span><strong><%= t :order_total %>:</strong></span><strong> <%= number_to_currency @order.total %></strong></p>
+               </td>
+       </tr>
 	<tr>
 		<td align="left">
-			<h2 class="paypal">Shipping Options</h2>
+			<h2 class="paypal"><%= t :shipping %></h2>
 			
 			<%#= debug(@order.shipping_methods) %>
 			<% form_tag complete_order_url(@order,:token => params[:token], :payer_id => params[:PayerID], :checkout_complete => 'yes') do %>	
@@ -37,7 +43,7 @@
 			
 			
 				<br /><br />
-			  <%= submit_tag 'Confirm Payment', :disabled => false, :class => 'paypal_submit' %>
+			  <%= submit_tag t(:confirm), :disabled => false, :class => 'button paypal_submit' %>
 			<% end %>
 		</td>
 	</tr>

@@ -11,7 +11,7 @@
 		<% end %>
 	
 	<div id="order">
-	<p>Awesome! It worked! Check your email, we have sent the details of this order to you. Thank you, come again!</p>
+	<p><%= t(:your_paypal_account_has_been_charged)%></p>
   <%= render :partial => 'shared/order_details', :locals => {:order => @order} -%>
 
   <br/>
