@@ -26,6 +26,7 @@ module PaypalExpress
     @ship_address = Address.new
     begin
       @ship_address.firstname, @ship_address.lastname = @address['name'].split(' ')
+      @ship_address.lastname = @ship_address.firstname if @ship_address.lastname.empty?
     rescue
       @ship_address.firstname = @address['name']
       @ship_address.lastname = @address['name']
