@@ -31,8 +31,8 @@ module PaypalExpress
       @ship_address.firstname = @address['name']
       @ship_address.lastname = @address['name']
     end
-    if @ship_address.respond_to?(:is_company)
-      @ship_address.is_company = not [@address['payer_business'],@address['company']].compact.join.blank?
+    if @ship_address.respond_to?(:is_company) 
+      @ship_address.is_company = [@address['payer_business'],@address['company']].compact.join.blank? ? false : true
     end
     @ship_address.address1 = @address['address1']
     @ship_address.address2 = @address['address2']
