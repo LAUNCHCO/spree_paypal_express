@@ -2,7 +2,7 @@
 # easier for developers to customize the checkout process.
 module PaypalExpress
   include ActiveMerchant::Billing
-  
+  include ApplicationHelper
   
   def express_checkout
     load_object
@@ -46,6 +46,7 @@ module PaypalExpress
     @order.checkout.email = details_response.email
     @order.checkout.ip_address = request.env['REMOTE_ADDR']
     @order.checkout.save
+
     
     #shipping rates
     
@@ -59,6 +60,8 @@ module PaypalExpress
     end
     
      @rates =  @rates.sort_by { |rate| rate[:rate_as_integer] }
+
+     @order.update_totals!
 
      return @rates
        
@@ -155,6 +158,5 @@ module PaypalExpress
           :signature => Spree::Config[:paypal_express_signature]
     )
   end
-  
   
 end

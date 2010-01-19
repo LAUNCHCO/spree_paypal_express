@@ -19,6 +19,10 @@ and you're done.
 
 Head to your Spree Administation Panel and find PayPal Express Settings. Enter your PayPal API details and choose a default currency.
 
+== Caveats
+
+You probably want to set +address_requires_state+ to +false+ in your Spree config if you have customers from countries where states aren't usally part of the address.
+
 == Credits & License
 
 This Plugin has been forked from @bryanmtl and has some modifications from @dagi3d pulled in. The rest is (c) 2010 ROCKET RENTALS GmbH, licensed under the MIT license.
