@@ -10,7 +10,8 @@ module PaypalExpress
         :ip                => request.remote_ip,
         :return_url        => url_for(:action => 'confirm', :id => @order, :only_path => false),
         :cancel_return_url => url_for(:action => 'edit', :id => @order, :only_path => false),
-        :locale => (I18n.locale.to_s.split('-').last rescue 'US')
+        :locale => (I18n.locale.to_s.split('-').last rescue 'US'),
+        :currency => Spree::Config[:paypal_express_currency] || 'USD'
       )
       redirect_to express_gateway.redirect_url_for(setup_response.token)
   end
@@ -100,7 +101,7 @@ module PaypalExpress
     
     if !purchase.success?
       @message = "We're sorry, your order couldn't be processed. Please make sure you have the necessary funding options within your paypal account."
-      # session[:order_id] = nil
+      RAILS_DEFAULT_LOGGER.error("TRANSACTION FAILED. PAYPAL ERROR MESSAGE: #{purchase.message}") 
       render :action => 'error'
       return
       
