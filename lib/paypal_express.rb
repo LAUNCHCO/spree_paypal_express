@@ -91,31 +91,27 @@ module PaypalExpress
     # debugger
     
     
-    purchase = express_gateway.purchase((@order.total*100),
-      :ip       => request.remote_ip,
-      :payer_id => params[:payer_id],
-      :token    => params[:token],
-      :currency => Spree::Config[:paypal_express_currency] || 'USD'
+    if @order.total > 0
+      purchase = express_gateway.purchase((@order.total*100),
+        :ip       => request.remote_ip,
+        :payer_id => params[:payer_id],
+        :token    => params[:token],
+        :currency => Spree::Config[:paypal_express_currency] || 'USD'
 
-    )
+      )
     
-    if !purchase.success?
-      @message = "We're sorry, your order couldn't be processed. Please make sure you have the necessary funding options within your paypal account."
-      RAILS_DEFAULT_LOGGER.error("TRANSACTION FAILED. PAYPAL ERROR MESSAGE: #{purchase.message}") 
-      render :action => 'error'
-      return
+      if !purchase.success?
+        @message = "We're sorry, your order couldn't be processed. Please make sure you have the necessary funding options within your paypal account."
+        RAILS_DEFAULT_LOGGER.error("TRANSACTION FAILED. PAYPAL ERROR MESSAGE: #{purchase.message}") 
+        render :action => 'error'
+        return
       
-    else
-    
-    
+      end
+    end
     
     @order.checkout.completed_at = Time.now
     @order.shipments.build if @order.shipment.blank?
     @order.shipment.build_address if @order.shipment.address.blank?
-
-    
-
-    
     
     # record a payment
     
@@ -132,7 +128,7 @@ module PaypalExpress
 
     # query - need 0 in amount for an auth? see main code
     transaction = CreditcardTxn.new( :amount => @order.total,
-                                     :response_code => purchase.authorization,
+                                     :response_code => (purchase ? purchase.authorization : 'FREE OF CHARGE - NO AUTH REQUIRED'),
                                      :txn_type => CreditcardTxn::TxnType::AUTHORIZE)
     payment.creditcard_txns << transaction
 
@@ -145,10 +141,6 @@ module PaypalExpress
     @order.update_attribute(:state, 'paid')
     
     session[:order_id] = nil
-    
-    
-    end
-
     
   end
   
