@@ -26,6 +26,7 @@
                        <h2 class="paypal"><%= t :price %></h2>
 					   <p><span><%= t :item_total %>:</span> <%= number_to_currency @order.item_total %></p>
 					   <p><span><%= t :tax_total %>:</span> <%= number_to_currency @order.tax_total %></p>
+						 <p><span><%= t :credit_total %>:</span> <%= number_to_currency @order.credit_total %></p>
 					   <p><span><strong><%= t :order_total %>:</strong></span><strong> <%= number_to_currency @order.total %></strong></p>
                </td>
        </tr>

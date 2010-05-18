@@ -48,10 +48,17 @@ class PaypalExpressExtension < Spree::Extension
     OrdersController.class_eval do
       # include this to enable paypal express checkout functions
       include PaypalExpress  
+      update.after do    
+        if (!params[:order][:coupon_code].blank? and coupon = Coupon.find_by_code(params[:order][:coupon_code].upcase))
+          coupon.create_discount(object)       
+          flash[:notice] = I18n.t(:updated_successfully) if object.save
+        end
+      end
     end
     
     Order.class_eval do
       has_many :paypal_payments
+      attr_accessor :coupon_code
             
       def complete_paypal_order
         self.update_attribute(:state, 'paid')

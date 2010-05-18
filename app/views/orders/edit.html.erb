@@ -5,6 +5,15 @@
 <% form_for(@order, :url => object_url, :html => { :method => :put, :id => 'updatecart' }) do |order_form| %>
   <%= render :partial => 'form', :locals => {:order_form => order_form} %>
   <% unless @order.line_items.empty? -%>
+	<% content_tag(:div) do %>
+    <% @order.credits.each do |credit| %>
+      <%= credit.description %>&nbsp;<%= number_to_currency credit.amount -%><br/>
+		<% end %>
+  <% end unless @order.credits.blank? %>
+	<% content_tag(:div) do %>
+  	<label><%= t(:coupon_code) %></label>
+  	<%= order_form.text_field :coupon_code, :id => 'coupon-code', :size => 14 %><br/><br/>
+	<% end unless Coupon.find(:all).blank? %>
   <div id="subtotal">
     <h3><%= "#{t("subtotal")}: #{order_price(@order)}" %></h3>
     <div class="links">
